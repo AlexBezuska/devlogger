@@ -1,4 +1,5 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
+const url = require("url");
 const fs = require("fs-extra");
 const path = require("path");
 const handlebars = require("handlebars");
@@ -119,7 +120,6 @@ function copyImages(files, src, dest, callback){
     }
   }
 }
-
 
 function checkListCheck(list, intendedLength) {
   if (Object.keys(list).length != intendedLength) return false;
