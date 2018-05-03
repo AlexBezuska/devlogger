@@ -1,0 +1,27 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dev Logger - Welcome</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+  <form>
+  <p>Please choose the directory you keep your screenshots in</p>
+  <input name="screenshotsFolder" id="screenshotsFolder" type="file" webkitdirectory />
+  <input id="submit" type="submit">
+</form>
+</body>
+
+<script>
+  document.querySelector('#submit').addEventListener('click', function() {
+    let screenshotsFolder = document.getElementById("screenshotsFolder").files[0].path;
+    const {ipcRenderer} = require('electron');
+    ipcRenderer.send('send-screenshots-folder', screenshotsFolder );
+  });
+</script>
+</html>

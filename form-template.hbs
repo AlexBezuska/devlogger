@@ -1,0 +1,62 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dev logger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+    .form-image{
+      max-width: 100%;
+      max-height: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form>
+      <div class="row">
+      {{#each this}}
+        <div class="col-sm-6 col-xs-12">
+          <img src="{{this.img}}" class="form-image">
+          <div class="form-group">
+            <label for="exampleTextarea">What were you working on in this image?</label>
+            <textarea class="form-control blog-text" id="{{this.id}}" data-img="{{this.img}}" rows="3"></textarea>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+
+      <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+
+</body>
+
+<script>
+  document.querySelector('#submit').addEventListener('click', function() {
+    function pullTextAreas(){
+    var textAreas = document.getElementsByClassName('blog-text');
+    var blogText = new Array();
+    for(var i = 0; i < textAreas.length; i++){
+        blogText.push(
+          {
+          "id":textAreas[i].id,
+          "img": textAreas[i].getAttribute('data-img'),
+          "value": textAreas[i].value
+        }
+        );
+    }
+    return blogText;
+  }
+
+    //let screenshotsFolder = document.getElementById("screenshotsFolder").files[0].path;
+    const {ipcRenderer} = require('electron');
+    ipcRenderer.send('send-blog-text', pullTextAreas());
+  });
+</script>
+
+</html>
